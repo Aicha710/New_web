@@ -27,7 +27,7 @@ const History = (() => {
 
   async function load() {
     const tbody = document.querySelector('#history-table tbody');
-    tbody.innerHTML = '<tr><td colspan="13" style="color:#5d6478">Chargement…</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="16" style="color:#5d6478">Chargement…</td></tr>';
 
     let page;
     try {
@@ -40,7 +40,7 @@ const History = (() => {
         to: document.getElementById('hf-to').value,
       });
     } catch (e) {
-      tbody.innerHTML = `<tr><td colspan="13" style="color:#e0492f">Erreur : ${e.message}</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="16" style="color:#e0492f">Erreur : ${e.message}</td></tr>`;
       return;
     }
 
@@ -48,7 +48,7 @@ const History = (() => {
     const rows = page.data || [];
 
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="13" style="color:#5d6478">Aucun résultat pour ces filtres.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="16" style="color:#5d6478">Aucun résultat pour ces filtres.</td></tr>';
     } else {
       tbody.innerHTML = rows.map((r) => {
         const dl = parseFloat(r.download);
@@ -68,8 +68,11 @@ const History = (() => {
             <td>${mobile}</td>
             <td>${net}</td>
             <td><b>${escapeHtml(r.download || '–')}</b></td>
+            <td>${r.downloadPeakSpeed > 0 ? escapeHtml(Number(r.downloadPeakSpeed).toFixed(2)) : '–'}</td>
             <td>${escapeHtml(r.upload || '–')}</td>
+            <td>${r.uploadPeakSpeed > 0 ? escapeHtml(Number(r.uploadPeakSpeed).toFixed(2)) : '–'}</td>
             <td>${escapeHtml(r.ping || '–')} ms</td>
+            <td>${r.pingMin > 0 ? escapeHtml(Number(r.pingMin).toFixed(0)) + ' ms' : '–'}</td>
             <td>${escapeHtml(r.jitter || '–')} ms</td>
             <td>${streaming}</td>
             <td>${browsing}</td>
